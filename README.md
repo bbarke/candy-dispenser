@@ -8,5 +8,8 @@ Please come back later for the wiring schematics.
 This wires together a stepper motor (driven by a TB6600 stepper driver), an Arduino Uno board, and an IR Break sensor
 
 [TB6600 Stepper Driver](https://amzn.to/2MwcQ8B)
+
 [Arduino Uno Board](https://amzn.to/35OiGdh)
+
 [IR (Infra-Red) Break Sensor](https://amzn.to/2pGLMuj)
+
