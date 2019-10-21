@@ -1,8 +1,22 @@
-// TB-6600 driver pins
+/**
+ * Code for the Candy Dispenser - Secondary stepper board
+ * Created by Brent Barker (Barkers' Random Projects)
+ * 
+ * The purpose of this board is to turn on and off the stepper motor
+ * depending on if it is told to do so from the main arduino board
+ * 
+ * Checkout out the YouTube video to see it working!!
+ * 
+ */
+
+
+
+// Stepper driver (TB-6600) driver pins
 #define dirpin 8 // DIR
 #define steppin 9 // PUL
 #define enable 7 // ENA
 
+// Input from main arduino board
 #define input 13
 
 // Define variables for distance
@@ -26,18 +40,7 @@ void setup() {
 }
 
 void loop() {
-
-  checkTriggerState();
-  //triggerState = digitalRead(input);
-  
-  //while (triggerState == 0) {
-  //  triggerState = digitalRead(input);
-  //  Serial.println("Waiting for trigger");
-  //  digitalWrite(enable, HIGH);
-  //}
-  
-  
-
+  // The sequnece that the stepper motor goes through to drive the belt
   vibrate(60);
   shuffle(2);
   step(2000, 5000);
@@ -65,9 +68,10 @@ void vibrate(int* count) {
 
 void step(int* steps, int* speed) {
   for (int i = 0; i < steps; i++) {
-    digitalWrite(steppin, LOW); // This LOW to HIGH change is what creates the step
+    digitalWrite(steppin, LOW); // This LOW to HIGH switch is what creates the step
     delayMicroseconds(speed);
     digitalWrite(steppin, HIGH);
+    // Check if the main arduino board has told us to pause between each step
     checkTriggerState();
   }
 }

@@ -1,15 +1,24 @@
-// Pin for other Arduino
+/**
+ * Code for the Candy Dispenser - Main sesnors board
+ * Created by Brent Barker (Barkers' Random Projects)
+ * 
+ * The purpose of this board is to wait for the classic arcade button to be pushed,
+ * send a single to a secondary arduino board tellint it to turn on and off a stepper
+ * motor, and waits for a IR break sensor to be tripped. 
+ * 
+ * Checkout out the YouTube video to see it working!!
+ * 
+ */
+
+
+// Pin that talks to other Arduino
 #define output 13
 
+// Button led light and input
 #define btnIn 12
 #define btnOut 11
 #define ledPinNeg 10
 #define ledPinPos 9
-
-// Define Trig and Echo pin for HC-SR04:
-#define trigPin 2
-#define echoPin 3
-#define power 4 // VCC for HC-SR04
 
 // IR Beam Sensor
 #define beamNeg 8
@@ -25,12 +34,6 @@ boolean running = true;
 int buttonState = 0;
 int threshold = 15;
 void setup() {
-  
-  pinMode(power, OUTPUT);
-  digitalWrite(power, HIGH);
-
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
   
   pinMode(output, OUTPUT);
 
@@ -65,7 +68,7 @@ void loop() {
   buttonState = digitalRead(btnIn);
   
   Serial.println("Loop");
-  turnOff();
+  turnOffStepper();
   delay(250);
   digitalWrite(ledPinPos, HIGH);
 
@@ -73,78 +76,36 @@ void loop() {
     buttonState = digitalRead(btnIn);
     Serial.print("Waiting for button: ");
     Serial.println(isBeamBroken());
-    //getDistance();
-    //threshold = distance - 2;
   }
 
-  //digitalWrite(power, HIGH);
-  //delay(500);
-
   digitalWrite(ledPinPos, LOW);
-  digitalWrite(output, HIGH);
-  //getDistance();
-  
-  // Candy is here!
-  //while (distance > threshold && distance < 100) {
-  //  getDistance();
-  //}
+  turnOnStepper();
 
+  // Wait for beam to be broken
   while (!isBeamBroken()) {
     Serial.println(isBeamBroken());
   }
-  turnOff();
+  turnOffStepper();
   delay(300);
 
+  // Wait for beam to reconnect
   while (isBeamBroken()) {
     Serial.println(isBeamBroken());
-    turnOn();
+    turnOnStepper();
     delay(40);
-    turnOff();
+    turnOffStepper();
     delay(350);
   }
-
-  // Candy dropped!
-  //while (distance <= threshold) {
-  //  Serial.println("Wait for drop");
-  //  getDistance();
-  //}
 }
 
 bool isBeamBroken() {
   return !digitalRead(beamInput);
 }
 
-void turnOff() {
+void turnOffStepper() {
   digitalWrite(output, LOW);
 }
 
-void turnOn() {
+void turnOnStepper() {
   digitalWrite(output, HIGH);
-}
-
-
-void getDistance() {
-
-  // Clear the trigPin by setting it LOW:
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(5);
-  
-  // Trigger the sensor by setting the trigPin high for 10 microseconds:
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  
-  // Read the echoPin, pulseIn() returns the duration (length of the pulse) in microseconds:
-  duration = pulseIn(echoPin, HIGH);
-  
-  // Calculate the distance:
-  distance = duration*0.034/2;
-  
-  // Print the distance on the Serial Monitor (Ctrl+Shift+M):
-  Serial.print("Distance = ");
-  Serial.print(distance);
-  Serial.print(" cm");
-  Serial.print(" threshold = ");
-  Serial.println(threshold);
-  delay(50); 
 }
