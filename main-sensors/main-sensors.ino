@@ -72,8 +72,14 @@ void loop() {
   delay(250);
   digitalWrite(ledPinPos, HIGH);
 
+  // Prevent kids from holding the button down
+  buttonState = getButtonState();
+  while (buttonState == 1) {
+    buttonState = getButtonState();
+  }
+  
   while (buttonState == 0) {
-    buttonState = digitalRead(btnIn);
+    buttonState = getButtonState();
     Serial.print("Waiting for button: ");
     Serial.println(isBeamBroken());
   }
@@ -96,6 +102,10 @@ void loop() {
     turnOffStepper();
     delay(350);
   }
+}
+
+int getButtonState() {
+  return digitalRead(btnIn);
 }
 
 bool isBeamBroken() {
