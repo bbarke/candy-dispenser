@@ -1,18 +1,19 @@
 # Automatic Halloween Candy Dispenser
 
-This is the code used for the automatic candy dispenser shown in this YoutTube video:
+This is the code used for the automatic candy dispenser shown in these YoutTube videos:
 https://youtu.be/KxcxH3_G3Es
+https://youtu.be/nSmAkXWpc4M
 
-Please come back later for the wiring schematics.
+For a parts list, please see our website here: https://barkersrandomprojects.com/projects/candyDispenser
 
-This wires together a stepper motor (driven by a TB6600 stepper driver), an Arduino Uno board, and an IR Break sensor
 
-[TB6600 Stepper Driver](https://amzn.to/3cMNOxK)
+On the first arduino board, load either 'main-sensors' or 'main-sensors-touchless'
 
-[Arduino Uno Board](https://amzn.to/3kVhEmn)
+On the second arduino board, load 'secondary-stepper' and wire them together as described below
 
-[IR (Infra-Red) Break Sensor](https://amzn.to/34mZfIL)
-
-# Simple wirign diagram
-
+# Simple wirign diagram for button option
 ![alt text](https://github.com/bbarke/candy-dispenser/blob/master/wiring-diagram-large.png?raw=true)
+
+
+# Simple wiring diagram for touchless option
+![alt text](https://github.com/bbarke/candy-dispenser/blob/master/wiring-diagram-touchless.png?raw=true)
